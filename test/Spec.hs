@@ -1,3 +1,4 @@
+{-# LANGUAGE NoImplicitPrelude #-}
 import           System.IO (IO, putStrLn)
 
 main :: IO ()
