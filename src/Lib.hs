@@ -9,6 +9,9 @@ where
 import           Data.List      (last)
 import           Data.Maybe     (Maybe (Just, Nothing), maybe)
 import           Data.Semigroup ((<>))
+import           Data.Tuple     (snd)
+import           Prelude        (Integer, Show, ($), (+))
+import           System.IO      (IO, putStrLn)
 
 newtype SpotId = SpotId Integer deriving Show
 newtype Spot = Spot SpotId deriving Show
@@ -23,6 +26,7 @@ last' :: [a] -> Maybe a
 last' [] = Nothing
 last' xs = Just $ last xs
 
+spots1 :: [Spot]
 spots1 = [Spot (SpotId 1), Spot (SpotId 2), Spot (SpotId 3)]
 
 stampRally1 :: StampRally
@@ -34,7 +38,7 @@ addStampCard (StampRally id spots cards stamps) =
   where
     lastCard  = last' cards
     newCardId = StampCardId
-        $ maybe 1 (\(StampCard (StampCardId id) _) -> id + 1) lastCard
+        $ maybe 1 (\(StampCard (StampCardId id') _) -> id' + 1) lastCard
     newCard  = StampCard newCardId []
     newCards = cards <> [newCard]
 
