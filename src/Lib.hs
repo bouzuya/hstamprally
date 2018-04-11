@@ -6,17 +6,19 @@ module Lib
     , stampRally1'
     )
 where
-
+import           Data.Functor   ((<$>))
 import           Data.List      (last)
 import           Data.Maybe     (Maybe (Just, Nothing), maybe)
 import           Data.Semigroup ((<>))
 import           Data.Tuple     (snd)
+import           Data.UUID      (UUID)
+import           Data.UUID.V4   (nextRandom)
 import           Prelude        (Integer, Show, ($), (+))
-import           System.IO      (IO, putStrLn)
+import           System.IO      (IO, print, putStrLn)
 
 newtype SpotId = SpotId Integer deriving Show
 newtype Spot = Spot SpotId deriving Show
-newtype StampId = StampId Integer deriving Show
+newtype StampId = StampId UUID deriving Show
 data Stamp = Stamp StampId Spot deriving Show
 newtype StampCardId = StampCardId Integer deriving Show
 data StampCard = StampCard StampCardId [Stamp] deriving Show
@@ -46,5 +48,11 @@ addStampCard (StampRally id spots cards stamps) =
 stampRally1' :: StampRally
 stampRally1' = snd $ addStampCard $ snd $ addStampCard stampRally1
 
+genStampId :: IO StampId
+genStampId = StampId <$> nextRandom
+
 someFunc :: IO ()
-someFunc = putStrLn "someFunc"
+someFunc = do
+    stampId <- genStampId
+    print stampId
+    putStrLn "someFunc"
